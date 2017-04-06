@@ -2238,7 +2238,6 @@ void database::initialize_indexes()
    add_core_index< dynamic_global_property_index           >(*this);
    add_core_index< account_index                           >(*this);
    add_core_index< account_authority_index                 >(*this);
-   add_core_index< account_bandwidth_index                 >(*this);
    add_core_index< witness_index                           >(*this);
    add_core_index< transaction_index                       >(*this);
    add_core_index< block_summary_index                     >(*this);
@@ -2857,6 +2856,8 @@ void database::_apply_transaction(const signed_transaction& trx)
          fc::raw::pack( transaction.packed_trx, trx );
       });
    }
+
+   notify_on_pre_apply_transaction( trx );
 
    //Finally process the operations
    _current_op_in_trx = 0;
